@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>History - Weather App</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+background: linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.4)), url('https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2060&q=80');
+background-size: cover;
+background-position: center;
+background-attachment: fixed;
+color: #001f4d;
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+}
+
+.container {
+display: flex;
+flex: 1;
+}
+
+/* Sidebar/Navbar */
+.sidebar {
+width: 250px;
+background: linear-gradient(rgba(0, 31, 77, 0.4), rgba(0, 51, 102, 0.5)), url('https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2060&q=80');
+background-size: cover;
+background-position: center;
+color: white;
+padding: 30px 20px;
+box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+z-index: 100;
+position: fixed;
+height: 100vh;
+overflow-y: auto;
+}
+
+.sidebar h2 {
+text-align: center;
+margin-bottom: 40px;
+font-weight: 700;
+font-size: 1.8rem;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 10px;
+}
+
+.sidebar h2 i {
+color: #dbc4ff;
+}
+
+.nav-links {
+display: flex;
+flex-direction: column;
+gap: 10px;
+}
+
+.nav-links a {
+color: #dbe4ff;
+padding: 14px 16px;
+text-decoration: none;
+border-radius: 10px;
+font-size: 1rem;
+display: flex;
+align-items: center;
+gap: 12px;
+transition: all 0.3s ease;
+font-weight: 500;
+}
+
+.nav-links a:hover {
+background: rgba(255, 255, 255, 0.15);
+color: #ffffff;
+transform: translateX(5px);
+}
+
+.nav-links a.active {
+background: rgba(255, 255, 255, 0.2);
+color: #ffffff;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.nav-links a i {
+font-size: 1.2rem;
+width: 24px;
+text-align: center;
+}
+
+/* Main Content */
+.main {
+flex: 1;
+padding: 40px;
+overflow-y: auto;
+background: rgba(255, 255, 255, 0.3);
+backdrop-filter: blur(3px);
+margin-left: 250px;
+}
+
+header {
+margin-bottom: 30px;
+}
+
+h1 {
+font-weight: 800;
+font-size: 2.8rem;
+background: linear-gradient(135deg, #001f4d 0%, #003366 100%);
+-webkit-background-clip: text;
+background-clip: text;
+color: transparent;
+margin-bottom: 10px;
+}
+
+.subtitle {
+font-size: 1.2rem;
+color: #56729a;
+margin-bottom: 30px;
+}
+
+/* List */
+.list {
+list-style: none;
+padding: 0;
+margin: 30px 0;
+max-width: 100%;
+}
+
+.list li {
+background: rgba(255, 255, 255, 0.85);
+padding: 20px 25px;
+margin: 15px 0;
+border-radius: 15px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+box-shadow: 0 3px 15px rgba(0, 31, 77, 0.1);
+transition: all 0.3s ease;
+cursor: pointer;
+border-left: 5px solid #001f4d;
+}
+
+.list li:hover {
+transform: translateX(5px);
+box-shadow: 0 5px 20px rgba(0, 31, 77, 0.15);
+background: rgba(255, 255, 255, 0.95);
+}
+
+.list li span {
+font-weight: 600;
+color: #001f4d;
+font-size: 1.1rem;
+flex: 1;
+}
+
+/* Delete Button with Cross Icon */
+.delete-btn {
+background: none;
+border: none;
+color: #001f4d;
+font-size: 1.3rem;
+cursor: pointer;
+padding: 8px;
+border-radius: 50%;
+transition: all 0.3s ease;
+width: 40px;
+height: 40px;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.delete-btn:hover {
+background: rgba(255, 107, 107, 0.1);
+color: #ff4757;
+transform: scale(1.1);
+}
+
+.empty-message {
+text-align: center;
+color: #56729a;
+font-size: 1.1rem;
+margin-top: 50px;
+padding: 30px;
+background: rgba(255, 255, 255, 0.7);
+border-radius: 15px;
+max-width: 600px;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+.container {
+flex-direction: column;
+}
+
+.sidebar {
+width: 100%;
+height: auto;
+position: relative;
+}
+
+.nav-links {
+flex-direction: row;
+flex-wrap: wrap;
+justify-content: center;
+}
+
+.nav-links a {
+padding: 10px 15px;
+font-size: 0.9rem;
+}
+
+.main {
+padding: 20px;
+margin-left: 0;
+}
+
+h1 {
+font-size: 2.2rem;
+}
+
+.list li {
+flex-direction: column;
+align-items: flex-start;
+gap: 15px;
+}
+
+.list-actions {
+align-self: flex-end;
+}
+}
+
+/* Animation */
+@keyframes fadeIn {
+from {
+opacity: 0;
+transform: translateY(20px);
+}
+
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+.list li {
+animation: fadeIn 0.5s ease forwards;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+<!-- Sidebar/Navbar -->
+<aside class="sidebar">
+<h2><i class="fas fa-cloud-sun"></i> Menu</h2>
+<div class="nav-links">
+<a href="dashboard.html"><i class="fas fa-tachometer-alt"></i>
+Dashboard</a>
+<a href="favorites.html"><i class="fas fa-star"></i> Favorites</a>
+<a href="history.html" class="active"><i class="fas
+fa-history"></i> History</a>
+<a href="about.html"><i class="fas fa-info-circle"></i> About</a>
+<a href="help.html"><i class="fas fa-question-circle"></i> Help</a>
+<a href="feedback.html"><i class="fas fa-comment"></i> Feedback</a>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="main">
+<header>
+<h1>Search History</h1>
+<p class="subtitle">Your recent weather searches</p>
+</header>
+<ul id="historyList" class="list"></ul>
+</main>
+</div>
+<script>
+let history = JSON.parse(localStorage.getItem("history") || "[]");
+function renderHistory() {
+const list = document.getElementById("historyList");
+if (history.length === 0) {
+list.innerHTML = '<div class="empty-message"><i class="fas fa-search" style="font-size: 3rem; margin-bottom: 15px; color: #5d9bff;"></i><p>No search history yet.<br>Start searching for cities to see your history here.</p></div>';
+return;
+}
+list.innerHTML = history.map((city, index) => `
+<li>
+<span onclick="viewWeather('${city}')">${city}</span>
+<button class="delete-btn" onclick="deleteHistory(${index})" title="Delete from history">
+<i class="fas fa-times"></i>
+</button>
+</li>
+`).join("");
+}
+function viewWeather(city) {
+localStorage.setItem("selectedCity", city);
+window.location.href = "dashboard.html";
+}
+function deleteHistory(index) {
+if (confirm("Are you sure you want to remove this city from your history?")) {
+history.splice(index, 1);
+localStorage.setItem("history", JSON.stringify(history));
+renderHistory();
+}
+}
+// Clear all history function
+function clearAllHistory() {
+if (confirm("Are you sure you want to clear all search history?")) {
+history = [];
+localStorage.setItem("history", JSON.stringify(history));
+renderHistory();
+}
+}
+renderHistory();
+</script>
+</body>
+
+</html>
+
